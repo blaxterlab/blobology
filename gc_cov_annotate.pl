@@ -33,9 +33,15 @@ foreach (@tax_list) {$tax_levels{$_}=1}
 
 if (not $output_file) {$output_file = $assembly_file . ".txt"};
 
-die "Usage: gc_cov_annotate.pl --blasttaxid CONTIGTAXIDFILE --assembly ASSEMBLYFASTAFILE [--taxdump TAXDUMPDIR] [--bam BAMFILE...]\n" unless
+print "Usage: gc_cov_annotate.pl --blasttaxid CONTIGTAXIDFILE --assembly ASSEMBLYFASTAFILE [--taxdump TAXDUMPDIR] [--bam BAMFILE...] [--cov COVFILES...] [--taxlist species...]\n" .
+    "--taxdump is . by default, i.e. the files nodes.dmp and names.dmp from the NCBI taxonomy database ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz are expected to be in the current directory\n" . 
+    "--taxlist: default is: species order phylum superkingdom, but you can add any other NCBI taxlevel such as class family suborder etc\n" unless
     (-r $blasttaxid_file or $blasttaxid_file eq "-") and -r "$taxdump_dir/nodes.dmp" and -r "$taxdump_dir/names.dmp" and 
     (-r $assembly_file or $assembly_file eq "-");
+
+die "Please specify --blasttaxid\n" unless (-r $blasttaxid_file or $blasttaxid_file eq "-");
+die "Please specify --taxdump\n" unless -r "$taxdump_dir/nodes.dmp" and -r "$taxdump_dir/names.dmp";
+die "Please specify --assembly\n" unless (-r $assembly_file or $assembly_file eq "-");
 
 #-----------------------------------------------------------------
 # Get taxon annotation info from contig-taxid file
