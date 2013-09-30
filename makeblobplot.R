@@ -59,10 +59,10 @@ g<-ggplot() + scale_colour_manual(values=paultol[[length(levels(mfilt[,taxlevel]
 for (t in levels(mfilt[,taxlevel])) {
   g <- g + geom_point(data=mfilt[mfilt[,taxlevel]==t,],aes_string(x="gc", y="cov", colour=taxlevel), size=2, alpha=I(1/3))
 }
-y_axis_breaks = c(1,2,5,10,20,50,100,200,500,1000);
+#y_axis_breaks = c(1,2,5,10,20,50,100,200,500,1000);
 g<-g +
   facet_wrap(~read_set, ncol=numcols) + 
-  scale_y_log10(breaks = y_axis_breaks, labels = y_axis_breaks) + scale_x_continuous(breaks = seq(0.3,0.7,0.1)) +
+  scale_y_log10() + scale_x_continuous(limits=c(0, 1),breaks = seq(0,1,.1)) +
   labs(x="GC content", y="Read coverage") + 
   guides(colour = guide_legend(nrow=3, override.aes = list(alpha = 1,size=10))) + 
   theme (
