@@ -54,8 +54,7 @@ Rerun example with Caenorhabditis sp. 5
 Run [blobology.bash](https://github.com/blaxterlab/blobology/blob/master/blobology.bash) from this repository. Comment out the lines that you don't need (e.g., if you prefer using a different assembler for the preliminary assembly, or a different alignment tool for mapping the reads)
 
 Broad overview of the pipeline (Figure 1 in the paper)
-![Figure 1. Broad overview of pipeline](https://raw.github.com/blaxterlab/blobology/master/blobologyMethodOverview.png)
-<img src="blobologyMethodOverview.png" alt="Figure 1. Broad overview of pipeline" style="height: 200px;"/>
+<img src="blobologyMethodOverview.png" alt="Figure 1. Broad overview of pipeline" style="height:200px;"/>
 
 Run the blobology pipeline for your own sequence data
 -----------------------------------------------------
