@@ -77,5 +77,5 @@ Separate contigs and reads based on blobplot visualisations
 See [separate_reads.bash](https://github.com/blaxterlab/blobology/blob/master/separate_reads.bash) from this repository for 
 the commands that were used to remove contaminants from the *Caenorhabditis* sp. 5 preliminary assembly.
 
-Your own data set will require you to devise your own positive (to keep contigs of interest) and negative (to discard 
-contigs belonging to contaminants) filters.
+Your own data set will require you to devise your own positive (to keep contigs, and reads, of interest) and negative (to discard 
+contigs and reads belonging to contaminants) filters.
