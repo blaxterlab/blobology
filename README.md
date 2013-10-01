@@ -21,8 +21,10 @@ Installation
 ------------
 
     git clone git://github.com/blaxterlab/blobology.git
+    # add this directory to your path, e.g.:
+    # export PATH=$PATH:/path/to/blobology
 
-You also need the following software:
+You also need the following software in your path:
 
 1.  samtools (tested with version 0.1.19) http://sourceforge.net/projects/samtools/files/samtools/0.1.19/
 2.  R (tested with version 2.15.2)
@@ -45,10 +47,23 @@ And the following databases:
         tar xzf taxdump.tar.gz
 
     Only the nodes.dmp and names.dmp files are needed (nodes.dmp stores the taxon ids and their parent-child relationships, whereas names.dmp stores their common and scientific names)
-    
-    
 
 Rerun example with Caenorhabditis sp. 5
 -----------------------------------------
 
-Run `rerun.bash` from the repository
+Run [blobology.bash](https://github.com/blaxterlab/blobology/blob/master/blobology.bash) from this repository. Comment out the lines that you don't need (e.g., if you prefer using a different assembler for the preliminary assembly, or a different alignment tool for mapping the reads)
+
+Broad overview of the pipeline (Figure 1 in the paper)
+![Figure 1. Broad overview of pipeline](https://raw.github.com/blaxterlab/blobology/master/BlobologyMethodOverview.png)
+
+Run the blobology pipeline for your own sequence data
+-----------------------------------------------------
+
+Run [blobology.bash](https://github.com/blaxterlab/blobology/blob/master/blobology.bash) from this repository. The only things you should really need to change are the read files in the ABySS and Bowtie 2 steps. Even these steps won't be needed if you already have a preliminary assembly and BAM files from aligning your raw reads back to this assembly.
+
+A tab separated values (TSV) text file is created by [gc_cov_annotate.pl](https://github.com/blaxterlab/blobology/blob/master/gc_cov_annotate.pl) and the ggplot2 R
+
+Visualise data using Blobsplorer
+--------------------------------
+
+The Blobsplorer visualiser for the was coded by Martin Jones, and is available at github.com
