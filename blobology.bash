@@ -1,17 +1,17 @@
 #!/bin/bash
 
 ## Blobology pipeline. 2013-09-12 Sujai Kumar 
-## sujai.kumar@gmail.com github.com/sujaikumar/assemblage
+## sujai.kumar@gmail.com github.com/blaxterlab/blobology
 
 ## Needs:
 ## Read files (unless you are providing assembly as fasta and
 ## read alignments as BAM).
 ## ABySS in path (unless you are providing your own assembly)
-## NCBI blast+ suite (2.2.28 or above, which provide taxids in hit)
+## NCBI blast+ suite (2.2.28 or above, which provides taxids in hit)
 ## NCBI formatted nt blast database (because it includes taxon information)
-## NCBI taxonomy dump (to calculate higher tax levels from hit taxids)
+## NCBI taxonomy dump (to calculate higher taxon levels from hit taxids)
 ## samtools in path (to manipulate bam files)
-## github assemblage scripts in path
+## github blaxterlab/blobology scripts in path
 ## fastq-mcf from the ea-utils suite (version 1.1.2-537) if you want to
 ## quality- and adapter- trim your raw reads
 
@@ -32,9 +32,9 @@
 
 ## Uncomment if you want to do quality- and adapter- trimming using fastq-mcf
 
-#fastq-mcf -o >(gzip -c >ERR138445_1.mcf.fastq.gz) -o >(gzip -c >ERR138445_2.mcf.fastq.gz) --max-ns 0 -l 50 -q 20 --qual-mean 20 -R adapters.fa \
+#fastq-mcf -o >(gzip -c >ERR138445_1.mcf.fastq.gz) -o >(gzip -c >ERR138445_2.mcf.fastq.gz) -l 50 -q 20 --qual-mean 20 -R adapters.fa \
 #    ERR138445_1.fastq.gz ERR138445_2.fastq.gz &>ERR138445.mcf.err
-#fastq-mcf -o >(gzip -c >ERR138446_1.mcf.fastq.gz) -o >(gzip -c >ERR138446_2.mcf.fastq.gz) --max-ns 0 -l 50 -q 20 --qual-mean 20 -R adapters.fa \
+#fastq-mcf -o >(gzip -c >ERR138446_1.mcf.fastq.gz) -o >(gzip -c >ERR138446_2.mcf.fastq.gz) -l 50 -q 20 --qual-mean 20 -R adapters.fa \
 #    ERR138446_1.fastq.gz ERR138446_2.fastq.gz &>ERR138446.mcf.err
 
 ####==========================================================================
@@ -54,12 +54,12 @@ NUMPROC=`grep "^processor" /proc/cpuinfo | tail -n 1 | awk '{print $3}'`
 KMER=61
 
 ## Location of local installation of nt blast database
-## (not needed if using blast remotely, which is slower)
-
+## (not needed if using blast remotely, which is slower).
 ## The NCBI nt databases can be downloaded from
 ## ftp://ftp.ncbi.nlm.nih.gov/blast/db/ using the following command:
 
 # wget "ftp://ftp.ncbi.nlm.nih.gov/blast/db/nt.*.tar.gz"
+# for a in nt.*.tar.gz; do tar xzf $a; done
 
 BLASTDB=~/scratch/blastdb
 
@@ -91,16 +91,23 @@ TAXDUMP=.
 abyss-pe name=pa${KMER} k=${KMER} np=60 j=12 lib="lib1 lib2" lib1="ERR138445_1.mcf.fastq.gz ERR138445_2.mcf.fastq.gz" lib2="ERR138446_1.mcf.fastq.gz ERR138446_2.mcf.fastq.gz"
 
 ## At the end of the abyss step, the assembled sequence will be in
-## ${NAME}-scaffolds.fa so set the ASSEMBLY environment variable to that filename
+## ${NAME}-scaffolds.fa
+## ABySS does not automatically discard short contigs, so keep only contigs >=200 bp:
 
-ASSEMBLY=${NAME}-scaffolds.fa
+fastaqual_select.pl -l 200 -f ${NAME}-scaffolds.fa >${NAME}-scaffolds.fa.l200 
+
+## Now, set the ASSEMBLY environment variable to that filename, so it can be used for subsequent steps
+
+ASSEMBLY=${NAME}-scaffolds.fa.l200
 
 ####==========================================================================
 #### STEP 2, find best blast hits of a random sample of contigs
 ####==========================================================================
 
-RND_ASSEMBLY=minlen1k.random10k.$ASSEMBLY
-fastaqual_select.pl -f $ASSEMBLY -s r -n 10000 -l 1000 >$RND_ASSEMBLY
+## the following command selects 10000 contigs at random:
+
+RND_ASSEMBLY=random10k.$ASSEMBLY
+fastaqual_select.pl -f $ASSEMBLY -s r -n 10000 >$RND_ASSEMBLY
 
 ## Change $BLASTDB to match your own path location of the nt blast database
 ## If running blast remotely on NCBI's servers, use -remote -db nt
@@ -114,11 +121,24 @@ blastn -task megablast -query $RND_ASSEMBLY -db $BLASTDB/nt -evalue 1e-5 -num_th
 #### STEP 3, map reads back to assembly using bowtie2
 ####==========================================================================
 
-## This step is not needed if you already have BAM files with the read alignments
+## This step is not needed if you already have BAM files with the read alignments.
+## The BAM files should have interleaved reads (i.e. read 1 followed by read 2, ...)
+## even if the reads are mapped unpaired, because a later script will use that
+## ordering to pick out read pairs even if only one read matched a given contig.
 
-bowtie2-build -o 3 -t 12 $ASSEMBLY $ASSEMBLY
-bowtie2 -x $ASSEMBLY --very-fast-local -k 1 -t -p 12 -U ERR138445_1.mcf.fastq.gz,ERR138445_2.mcf.fastq.gz  | samtools view -S -b -T $ASSEMBLY - >$ASSEMBLY.ERR138445.bowtie2.bam
-bowtie2 -x $ASSEMBLY --very-fast-local -k 1 -t -p 12 -U ERR138446_1.mcf.fastq.gz,ERR138446_2.mcf.fastq.gz  | samtools view -S -b -T $ASSEMBLY - >$ASSEMBLY.ERR138446.bowtie2.bam
+## By mapping the two libraries separately, we can check if the blobplots (TAGC plots)
+## are library specific, which is a useful QC feature
+
+bowtie2-build $ASSEMBLY $ASSEMBLY
+
+for LIBNAME in ERR138445 ERR138446
+do
+    bowtie2 -x $ASSEMBLY --very-fast-local -k 1 -t -p 12 --reorder -mm \
+        -U <(shuffleSequences_fastx.pl 4 <(zcat ${LIBNAME}_1.mcf.fastq.gz) <(zcat ${LIBNAME}_2.mcf.fastq.gz)) \
+        | samtools view -S -b -T $ASSEMBLY - >$ASSEMBLY.$LIBNAME.bowtie2.bam
+done
+
+# Note: shuffleSequences_fastx.pl works on gunzipped files, hence the need to zcat inline
 
 ####==========================================================================
 #### STEP 4, combine BAM files and blast hits to create data file for plotting
@@ -127,7 +147,11 @@ bowtie2 -x $ASSEMBLY --very-fast-local -k 1 -t -p 12 -U ERR138446_1.mcf.fastq.gz
 ## ABySS will create one or more BAM files. Replace *.bam with own BAM files
 ## if you have aligned them separately without using ABySS
 
-gc_cov_annotate.pl --blasttaxid $RND_ASSEMBLY.nt.1e-5.megablast --assembly $ASSEMBLY --bam *.bam --out blobplot.txt
+gc_cov_annotate.pl --blasttaxid $RND_ASSEMBLY.nt.1e-5.megablast --assembly $ASSEMBLY --bam *.bam --out blobplot.txt --taxdump . --taxlist species order phylum superkingdom
+
+# Note: change --taxdump . to point to the directory where you unpacked NCBI's taxdump.tar.gz
+# Note: change --taxlist to any combination of NCBI's taxonomy levels (lowercase) such as class genus family, etc.
+# The default is species order phylum superkingdom
 
 ####==========================================================================
 #### STEP 4, create blobplots using R, or visualise using blobsplorer
@@ -140,3 +164,6 @@ gc_cov_annotate.pl --blasttaxid $RND_ASSEMBLY.nt.1e-5.megablast --assembly $ASSE
 ## have a particular annotation, they are not shown in the legend
 
 makeblobplot.R blobplot.txt 0.01 taxlevel_order
+
+## The output file blobplot.txt can also be loaded into Blobsplorer - see github.com/mojones/blobsplorer
+
