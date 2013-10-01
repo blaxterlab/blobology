@@ -66,4 +66,15 @@ A tab separated values (TSV) text file is created by [gc_cov_annotate.pl](https:
 Visualise data using Blobsplorer
 --------------------------------
 
-The Blobsplorer visualiser for the was coded by Martin Jones, and is available at github.com
+The Blobsplorer visualiser for the TSV file created above was coded by Martin Jones, and is available at 
+github.com/mojones/blobsplorer
+
+
+Separate contigs and reads based on blobplot visualisations
+-----------------------------------------------------------
+
+See [separate_reads.bash](https://github.com/blaxterlab/blobology/blob/master/separate_reads.bash) from this repository for 
+the commands that were used to remove contaminants from the *Caenorhabditis* sp. 5 preliminary assembly.
+
+Your own data set will require you to devise your own positive (to keep contigs of interest) and negative (to discard 
+contigs belonging to contaminants) filters.
