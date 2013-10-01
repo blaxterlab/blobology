@@ -55,7 +55,7 @@ Run [blobology.bash](https://github.com/blaxterlab/blobology/blob/master/blobolo
 
 Broad overview of the pipeline (Figure 1 in the paper)
 
-<img src="blobologyMethodOverview.png" alt="Figure 1. Broad overview of pipeline" height="50%"/>
+<img src="blobologyMethodOverview.png" alt="Figure 1. Broad overview of pipeline" width="50%" height="50%"/>
 
 Run the blobology pipeline for your own sequence data
 -----------------------------------------------------
