@@ -1,5 +1,3 @@
-For: github.com/blaxterlab/blobology/blob/master/README.md
-
 Blobology
 =========
 
