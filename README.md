@@ -54,7 +54,8 @@ Rerun example with Caenorhabditis sp. 5
 Run [blobology.bash](https://github.com/blaxterlab/blobology/blob/master/blobology.bash) from this repository. Comment out the lines that you don't need (e.g., if you prefer using a different assembler for the preliminary assembly, or a different alignment tool for mapping the reads)
 
 Broad overview of the pipeline (Figure 1 in the paper)
-![Figure 1. Broad overview of pipeline](https://raw.github.com/blaxterlab/blobology/master/BlobologyMethodOverview.png)
+
+<img src="blobologyMethodOverview.png" alt="Figure 1. Broad overview of pipeline" width="50%" height="50%"/>
 
 Run the blobology pipeline for your own sequence data
 -----------------------------------------------------
@@ -76,5 +77,5 @@ Separate contigs and reads based on blobplot visualisations
 See [separate_reads.bash](https://github.com/blaxterlab/blobology/blob/master/separate_reads.bash) from this repository for 
 the commands that were used to remove contaminants from the *Caenorhabditis* sp. 5 preliminary assembly.
 
-Your own data set will require you to devise your own positive (to keep contigs of interest) and negative (to discard 
-contigs belonging to contaminants) filters.
+Your own data set will require you to devise your own positive (to keep contigs, and reads, of interest) and negative (to discard 
+contigs and reads belonging to contaminants) filters.
