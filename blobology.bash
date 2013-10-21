@@ -147,7 +147,10 @@ done
 ## ABySS will create one or more BAM files. Replace *.bam with own BAM files
 ## if you have aligned them separately without using ABySS
 
-gc_cov_annotate.pl --blasttaxid $RND_ASSEMBLY.nt.1e-5.megablast --assembly $ASSEMBLY --bam *.bam --out blobplot.txt --taxdump . --taxlist species order phylum superkingdom
+gc_cov_annotate.pl \
+  --blasttaxid $RND_ASSEMBLY.nt.1e-5.megablast \
+  --assembly $ASSEMBLY --bam *.bam --out blobplot.txt \
+  --taxdump $TAXDUMP --taxlist species order phylum superkingdom
 
 # Note: change --taxdump . to point to the directory where you unpacked NCBI's taxdump.tar.gz
 # Note: change --taxlist to any combination of NCBI's taxonomy levels (lowercase) such as class genus family, etc.
