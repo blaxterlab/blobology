@@ -133,7 +133,7 @@ bowtie2-build $ASSEMBLY $ASSEMBLY
 
 for LIBNAME in ERR138445 ERR138446
 do
-    bowtie2 -x $ASSEMBLY --very-fast-local -k 1 -t -p 12 --reorder -mm \
+    bowtie2 -x $ASSEMBLY --very-fast-local -k 1 -t -p 12 --reorder --mm \
         -U <(shuffleSequences_fastx.pl 4 <(zcat ${LIBNAME}_1.mcf.fastq.gz) <(zcat ${LIBNAME}_2.mcf.fastq.gz)) \
         | samtools view -S -b -T $ASSEMBLY - >$ASSEMBLY.$LIBNAME.bowtie2.bam
 done
