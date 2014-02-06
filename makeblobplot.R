@@ -43,6 +43,13 @@ numcols=length(cov_colnames)
 taxlevel=arg_taxlevel;
 
 m<-melt(orig,id.vars=c("seqid","len","gc",taxlevel),measure.vars=cov_colnames, variable.name="read_set", value.name="cov")
+
+# there aren't many colours available, so to restrict the plot to only 13 colours:
+# (thanks to https://github.com/hobrien for the fix)
+if (length(levels(m[,taxlevel])) > 14) {
+  levels(d[,taxlevel])[which(table(d[,taxlevel])<=sort(as.numeric(table(d[,taxlevel])), decreasing=T)[13])]<-"other"
+}
+
 mfilt<-clean.blobs(m,arg_ignore_below_prop,taxlevel)
 taxnames=names(sort(table(mfilt[,taxlevel]),decreasing=TRUE))
 taxnames=c("Not annotated", taxnames[taxnames != "Not annotated"])
