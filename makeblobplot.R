@@ -47,7 +47,7 @@ m<-melt(orig,id.vars=c("seqid","len","gc",taxlevel),measure.vars=cov_colnames, v
 # there aren't many colours available, so to restrict the plot to only 13 colours:
 # (thanks to https://github.com/hobrien for the fix)
 if (length(levels(m[,taxlevel])) > 14) {
-  levels(d[,taxlevel])[which(table(d[,taxlevel])<=sort(as.numeric(table(d[,taxlevel])), decreasing=T)[13])]<-"other"
+  levels(m[,taxlevel])[which(table(m[,taxlevel])<=sort(as.numeric(table(m[,taxlevel])), decreasing=T)[13])]<-"other"
 }
 
 mfilt<-clean.blobs(m,arg_ignore_below_prop,taxlevel)
