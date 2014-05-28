@@ -4,7 +4,8 @@ README.md of /blobology/dev
 
 Input formats
 
-- legacy format:
+legacy format:
+
 | columns | len | gc | cov1 | cov2 | cov3  | taxlevel1 | taxlevel2 | taxlevel3 | taxlevel4 |
 | type |str | int | float | float | float | str |  str |  str | str | 
 |:-------------:|:-------------:|:-----:|:-------------:|:-------------:|:-----:|:-----:|:-----:|:-----:|:-----:|
