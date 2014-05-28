@@ -7,9 +7,9 @@ Input formats
 legacy format:
 
 | columns | len | gc | cov1 | cov2 | cov3  | taxlevel1 | taxlevel2 | taxlevel3 | taxlevel4 |
-| type |str | int | float | float | float | str |  str |  str | str | 
-|:-------------:|:-------------:|:-----:|:-------------:|:-------------:|:-----:|:-----:|:-----:|:-----:|:-----:|
-| example| ID | len | gc | cov1 | cov2 | cov3 | taxlevel_species | taxlevel_order	| taxlevel_phylum	| taxlevel_superkingdom |
+| type | str | int | float | float | float | str |  str |  str | str | 
+|-------------|-------------:|:-----:|:-------------:|:-------------:|:-----:|:-----:|:-----:|:-----:|:-----|
+| example | ID | len | gc | cov1 | cov2 | cov3 | taxlevel_species | taxlevel_order | taxlevel_phylum | taxlevel_superkingdom |
 | | contig1 | 1000 | 0.56 | 100.0 | 150.2 | 80.3 | Danio rerio | Cypriniformes | Chordata | Eukaryota |
 | | contig2 | 500 | 0.54 | 12.9 | 11.1 | 15.7 | Not Annotated | Not Annotated | Not Annotated | Not Annotated |
 
