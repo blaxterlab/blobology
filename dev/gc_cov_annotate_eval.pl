@@ -202,7 +202,7 @@ else{
         print LENCOVGC "\n";
     }
 }
-print STDERR scalar localtime() . " - Making len gc cov taxon annotation data file $assembly_file.txt for plotting ... DONE\n";
+print STDERR scalar localtime() . " - Making len gc cov taxon annotation data file $output_file for plotting ... DONE\n";
 
 ############################################################
 
