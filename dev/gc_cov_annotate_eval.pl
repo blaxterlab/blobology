@@ -157,6 +157,7 @@ if ($newformat){
         print LENCOVGC "\t";
         for my $tax_level (@tax_list) {
             $tax = (exists(${$contig_taxinfo{$seqid}}{$tax_level}) ? ${$contig_taxinfo{$seqid}}{$tax_level} : "Not annotated");
+            $tax =~ s/;|=|#//g;
             print LENCOVGC $tax_level."=".$tax.";";
         }
         print LENCOVGC "\t";
@@ -190,7 +191,10 @@ else{
             print LENCOVGC "\t" . $cov;
         }
         for my $tax_level (@tax_list) {
-            print LENCOVGC "\t" . (exists(${$contig_taxinfo{$seqid}}{$tax_level}) ? ${$contig_taxinfo{$seqid}}{$tax_level} : "Not annotated"); 
+            #print LENCOVGC "\t" . (exists(${$contig_taxinfo{$seqid}}{$tax_level}) ? ${$contig_taxinfo{$seqid}}{$tax_level} : "Not annotated"); 
+            $tax = (exists(${$contig_taxinfo{$seqid}}{$tax_level}) ? ${$contig_taxinfo{$seqid}}{$tax_level} : "Not annotated");
+            $tax =~ s/#//g;
+            print LENCOVGC $tax_level."=".$tax.";";
         }
         if ($evalue){ # DRL
             print LENCOVGC "\t" . (exists($contig_evalinfo{$seqid}) ? $contig_evalinfo{$seqid} : "N/A"); 
