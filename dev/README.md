@@ -14,7 +14,7 @@ legacy format:
 |         | contig2 |  500 |  0.54 |  12.9 |  11.1 |  15.7 |   Not Annotated  |  Not Annotated |  Not Annotated  |     Not Annotated     |
 
 
-- eval format as in gc_cov_annotate_v1.pl --evalue (requires BLAST -outfmt '5 qseqid taxid std')
+- eval format as in gc_cov_annotate_v1.pl --evalue (requires BLAST -outfmt '6 qseqid taxid std')
 
 | columns | ID      | len  | gc    | cov1  | cov2  | cov3  | taxlevel1        | taxlevel2      | taxlevel3       | taxlevel4             | eval       |
 |---------|---------|------|-------|-------|-------|-------|------------------|----------------|-----------------|-----------------------|------------|
