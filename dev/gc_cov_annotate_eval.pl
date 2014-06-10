@@ -73,7 +73,10 @@ while (<$blasttaxid_fh>) {
         my $contig = $1;
         my $taxid = $2;
         my $eval = $3;
-        unless (exists $contig_taxinfo{$contig}){
+        if (exists $contig_taxinfo{$contig}){
+            next;
+        }
+        else{
             $contig_taxinfo{$contig} = &taxonomy_report($taxid);
             $contig_evalinfo{$contig} = $eval;
         }
