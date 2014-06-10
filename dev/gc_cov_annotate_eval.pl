@@ -70,8 +70,10 @@ while (<$blasttaxid_fh>) {
     if ($evalue){ # DRL
         die "Contig-taxid file $blasttaxid_file does not seem to have the blast output format '6 qseqid staxids std'" unless 
             /^(\S+)\t(\d+);*\d*\t\S+\t\S+\t\d+\t\d+\t\d+\t\d+\t\d+\t\d+\t\d+\t(\S+)/;
-        $contig_taxinfo{$1} = &taxonomy_report($2);
-        $contig_evalinfo{$1}=$3;
+        unless exists($contig_taxinfo{$1}){
+            $contig_taxinfo{$1} = &taxonomy_report($2);
+            $contig_evalinfo{$1} = $3;
+        }
     }
     else{
         die "Contig-taxid file $blasttaxid_file does not seem to have the blast output format '6 qseqid staxids ...'" unless 
