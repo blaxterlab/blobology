@@ -122,6 +122,29 @@ for my $cas_file (@cas_files) {
     print STDERR scalar localtime() . " - Reading $cas_file ... DONE\n";
 }
 
+# calculate coverage for each bam file
+for my $bam_file (@bam_files) {
+    my $reads_processed = 0;
+    my ($refstart, $refend, $readid, @F); # declaring here to avoid having to declare in each instance of loop
+    open SAM, "samtools view $bam_file |" or die $!; 
+    print STDERR scalar localtime() . " - Reading $bam_file ...\n";
+    while (<SAM>) {
+        # ignore comment lines/ SAM headers
+        next if /^\s*$/ or /^@/ or /^#/;
+        chomp;
+        @F=split/\t/;
+        if (($F[1] & 4) != 4) {
+            $refstart =  $F[3];
+            $refend   =  $F[3] - 1;
+            while ($F[5] =~ /(\d+)[MIDNP]/g) { $refend += $1 } # calculate coverage on reference sequence from CIGAR
+            die "ContigID $F[2] in bamfile $bam_file, but not in assembly file $assembly_file\n" if not exists $$fastahash{$F[2]};
+            $$fastahash{$F[2]}{$bam_file} += ($refend - $refstart + 1)/$$fastahash{$F[2]}{len};
+        }
+        $reads_processed++;
+        print STDERR "Processed $reads_processed reads by " . localtime() . "...\n" if $reads_processed % 1000000 == 0;
+    }
+    print STDERR scalar localtime() . " - Reading $bam_file ... DONE\n";
+}
 # calculate coverage for each cov file (two col file with seqid in first col, average read coverage depth in second col)
 for my $cov_file (@cov_files) {
     open COV, $cov_file or die $!;
