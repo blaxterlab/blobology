@@ -189,7 +189,7 @@ if ($newformat){
         }
         for my $bam_file (@bam_files) {
             $cov = (exists($$fastahash{$seqid}{$bam_file}) ? $$fastahash{$seqid}{$bam_file} : 0);
-            print LENCOVGC $cov_file."=".$cov.";";
+            print LENCOVGC $bam_file."=".$cov.";";
         }
         print LENCOVGC "\t";
         for my $tax_level (@tax_list) {
