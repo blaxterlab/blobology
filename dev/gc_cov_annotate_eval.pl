@@ -187,6 +187,10 @@ if ($newformat){
             $cov = (exists($$fastahash{$seqid}{$cov_file}) ? $$fastahash{$seqid}{$cov_file} : 0);
             print LENCOVGC $cov_file."=".$cov.";";
         }
+        for my $bam_file (@bam_files) {
+        $cov = (exists($$fastahash{$seqid}{$bam_file}) ? $$fastahash{$seqid}{$bam_file} : 0);
+        print LENCOVGC "\t" . $cov;
+        }
         print LENCOVGC "\t";
         for my $tax_level (@tax_list) {
             $tax = (exists(${$contig_taxinfo{$seqid}}{$tax_level}) ? ${$contig_taxinfo{$seqid}}{$tax_level} : "Not annotated");
