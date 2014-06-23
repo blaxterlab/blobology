@@ -209,6 +209,7 @@ else{
     print LENCOVGC "seqid\tlen\tgc";
     foreach (@cas_files) {print LENCOVGC "\tcov_$_"};
     foreach (@cov_files) {print LENCOVGC "\tcov_$_"};
+    foreach (@bam_files) {print LENCOVGC "\tcov_$_"};
     foreach (@tax_list)  {print LENCOVGC "\ttaxlevel_$_"};
     if ($evalue){# DRL
         print LENCOVGC "\teval"; 
