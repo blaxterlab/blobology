@@ -16,6 +16,7 @@ use Getopt::Long qw(:config pass_through no_ignore_case);
 my ($blasttaxid_file, $taxdump_dir, $assembly_file, $output_file, $evalue, $newformat) = ("",".","","", 0, 0);
 my @tax_list;
 my @cas_files;
+my @bam_files;
 my @cov_files;
 
 GetOptions (
@@ -26,6 +27,7 @@ GetOptions (
     "out:s"        => \$output_file,
     "taxdump:s"    => \$taxdump_dir,
     "cas:s{,}"     => \@cas_files,
+    "bam:s{,}"     => \@bam_files,
     "cov:s{,}"     => \@cov_files,
     "taxlist:s{,}" => \@tax_list,
 );
