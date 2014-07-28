@@ -165,7 +165,7 @@ open  LENCOVGC, ">$output_file" or die $!;
 my ($seqid, $length, $gccount, $nonatgc, $totalcov, $cov, $tax); # declared outside loop for efficiency
 if ($newformat){
     # header row:
-    print LENCOVGC "ID\tlen\tgc";
+    print LENCOVGC "id\tlen\tgc";
     print LENCOVGC "\tcov";
     #foreach (@cas_files) {print LENCOVGC "\tcov_$_"};
     print LENCOVGC "\ttax";
