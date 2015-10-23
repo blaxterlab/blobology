@@ -84,7 +84,7 @@ while (<SAM>) {
     # get forward read, forward contig, reverse read, reverse contig;
     my @F=split(/\t/);
     die "Does not seem to be a valid SAM file" unless $F[1] =~ /^\d+$/;
-    if ($F[1]!=0 and $F[1]%16==0) {
+    if ($F[1] & 16) {
         $fr = "\@$F[0]\n" . &revcomp($F[9]) . "\n\+\n" . reverse($F[10]) . "\n";
     }
     else {
@@ -93,7 +93,7 @@ while (<SAM>) {
     $fc = $F[2];
     $_ = <SAM>;
     @F=split(/\t/);
-    if ($F[1]!=0 and $F[1]%16==0) {
+    if ($F[1] & 16) {
         $rr = "\@$F[0]\n" . &revcomp($F[9]) . "\n\+\n" . reverse($F[10]) . "\n";
     }
     else {
