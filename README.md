@@ -1,3 +1,9 @@
+Update
+------
+
+###2015-12-16: For more features and better plots please use Dominik Laetsch's blobtools at https://drl.github.io/blobtools/
+
+
 Blobology
 =========
 
@@ -14,11 +20,6 @@ It contains bash/perl/R scripts for running the analysis presented in the paper 
 ![Figure 2a. Caenorhabditis sp. 5 prelim assembly blobplot](https://raw.github.com/blaxterlab/blobology/master/pa61-scaffolds.fa.bowtie2.txt.taxlevel_order.01.png)
 
 **Note**: This is an update to the code at github.com/sujaikumar/assemblage which was used in my thesis. I could have updated the code in that repository, but enough things have changed (the basic file formats as well) that I thought it made sense to create a new repo. Please use this version from now on.
-
-Update
-------
-
-2015-06-15: Currently, the best looking blobplots/TAGC plots are made by Dominik Laetsch's scripts at https://github.com/DRL/blobtools-light
 
 Installation
 ------------
