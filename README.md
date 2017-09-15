@@ -1,8 +1,7 @@
 Update
-------
+======
 
-###2015-12-16: For more features and better plots please use Dominik Laetsch's blobtools at https://drl.github.io/blobtools/
-
+## 2017-09-15: No longer maintained. Please use [BlobTools](https://github.com/DRL/blobtools)
 
 Blobology
 =========
