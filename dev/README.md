@@ -23,7 +23,7 @@ legacy format:
 |         | contig1 | 1000 | 0.56  | 100   | 150.2 | 80.3  | Danio rerio      | Cypriniformes  | Chordata        | Eukaryota             | 1e-25      |
 |         | contig2 | 500  | 0.54  | 12.9  | 11.1  | 15.7  | Not Annotated    | Not Annotated  | Not Annotated   | Not Annotated         | N/A        |
 
-- novel format (to be inplemented)
+- novel format (to be implemented)
 
 | columns |    ID   |  len |   gc  |              cov              |                                            tax                                            | eval       |
 |:-------:|:-------:|:----:|:-----:|:-----------------------------:|:-----------------------------------------------------------------------------------------:|------------|
